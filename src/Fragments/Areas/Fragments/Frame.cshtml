@@ -1,0 +1,25 @@
+﻿@model Fragments.Areas.Fragments.Models.FrameModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fragment - @Model.Name</title>
+    <esi:include src="/assets/fragments/baseline.css.html"></esi:include>
+    @foreach (var css in Model.Css)
+    {
+        <esi:include src="@css" onerror="continue"></esi:include>
+    }
+</head>
+<body>
+@foreach (var html in Model.Html)
+{
+    <esi:include src="@html" onerror="continue"></esi:include>
+}
+
+<esi:include src="/assets/fragments/baseline.js.html" />
+
+@foreach (var js in Model.Js)
+{
+    <esi:include src="@js" onerror="continue"></esi:include>
+}
+</body>
+</html>

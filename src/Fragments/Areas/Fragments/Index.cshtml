@@ -1,0 +1,76 @@
+﻿@model IReadOnlyCollection<Fragments.Areas.Fragments.Models.FragmentModel>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All the fragments!</title>
+</head>
+<body>
+<style>
+    .expandable {
+    }
+
+    .fragments {
+        margin-bottom: 50px;
+        font-family: Open Sans, sans-serif;
+        border: 1px solid lightgrey;
+    }
+
+    .fragments-iframe {
+        display: block;
+        width: 100%;
+        height: 800px;
+        border: 0;
+        overflow: hidden;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .title {
+        cursor: pointer;
+        display: block;
+        font-size: xx-large;
+        width: 400px;
+    }
+</style>
+    @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
+    {
+        <span id="@fragment.Id" class="expandable title">@fragment.FragmentGroupName</span>
+        <blockquote id="@($"{fragment.Id}details")" class="fragments hide">
+            <div>
+                <iframe id="@($"{fragment.Id}frame")"
+                        class="fragments-iframe"
+                        scrolling="no"
+                        data-src="@($"{Url.Action("Frame")}?name={fragment.FragmentGroupName}&css=/{fragment.Css}&html=/{fragment.Html}&js=/{fragment.Js}")"></iframe>
+            </div>
+        </blockquote>
+    }
+    <script type="text/javascript">
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var nodes = document.querySelectorAll('.expandable');
+
+            Array.from(nodes).forEach(x => x.addEventListener('click', onClick));
+
+            function onClick(e) {
+                e.preventDefault();
+
+                var container = document.querySelector('#' + e.currentTarget.id + 'details');
+                var frame = document.querySelector('#' + e.currentTarget.id + 'frame');
+                if (frame.getAttribute('src') !== null) {
+                    container.classList.toggle('hide');
+                    return;
+                }
+
+                frame.setAttribute('src', frame.dataset.src);
+
+                frame.onload = function () {
+                    container.classList.toggle('hide');
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
