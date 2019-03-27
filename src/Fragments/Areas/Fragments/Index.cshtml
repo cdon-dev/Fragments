@@ -26,7 +26,7 @@
         display: none;
     }
 
-    .title {
+    .sideBarLink {
         cursor: pointer;
         list-style: none;
     }
@@ -38,12 +38,7 @@
     .sideBarMain{
         height: 100vh;
     }
-
-    .sideBarList{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+    
 </style>
 <body>
     <header>
@@ -55,11 +50,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-2 bg-info text-dark sideBarMain">
-                    <div class="sideBarListWrapper">
-                        <ul class="sideBarList pl-0">
+                    <div class="sideBarListWrapper mt-2">
+                        <ul class="list-group">
                         @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
                         {
-                            <li id="@fragment.Id" class="expandable title p-2">@fragment.FragmentGroupName</li>
+                            <li id="@fragment.Id" class="expandable list-group-item p-2 border-0 text-center">@fragment.FragmentGroupName</li>
                         }
                         </ul>
                     </div>
@@ -73,6 +68,7 @@
                             <iframe id="@($"{fragment.Id}frame")"
                             class="fragments-iframe"
                             scrolling="no"
+                            frameborder="0"
                             data-src="@($"{Url.Action("Frame")}?name={fragment.FragmentGroupName}&css=/{fragment.Css}&html=/{fragment.Html}&js=/{fragment.Js}")"></iframe>
                          </div>
                      </blockquote>
@@ -91,7 +87,7 @@
 
             function onClick(e) {
                 e.preventDefault();
-
+                this.classList.toggle('active')
                 var container = document.querySelector('#' + e.currentTarget.id + 'details');
                 var frame = document.querySelector('#' + e.currentTarget.id + 'frame');
                 if (frame.getAttribute('src') !== null) {
