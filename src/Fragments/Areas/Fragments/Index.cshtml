@@ -11,8 +11,7 @@
     }
 
     .fragments {
-        margin-bottom: 50px;
-        font-family: Open Sans, sans-serif;
+        margin-bottom: 20px;
     }
 
 
@@ -27,17 +26,13 @@
         display: none;
     }
 
-    .sideBarLink {
-        
-        list-style: none;
-    }
-
-    body, html{
-        min-height: 100%;
+   html, body {
+    min-height: 100vh;
+    margin: 0;
     }
 
     .sideBarMain{
-        height: 100vh;
+        min-height: 100vh;
     }
 
     .list-group-item{
@@ -48,27 +43,27 @@
 <body>
     <header>
         <nav class="navbar navbar-dark bg-success">
-            <span class="navbar-brand mb-0 h1">Navbar</span>
+            <span class="navbar-brand mb-0 h1">CDON Fragment showcase</span>
         </nav>
     </header>
     <main>
         <div class="container-fluid">
-            <div class="row">
+            <div class="row h-100">
                 <div class="col-2 bg-info text-dark sideBarMain">
                     <div class="sideBarListWrapper mt-2">
                         <ul class="list-group">
                         @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
                         {
-                            <li id="@fragment.Id" class="expandable list-group-item list-group-item-secondary list-group-item-action p-2 border-0 text-center mt-1">@fragment.FragmentGroupName</li>
+                            <li id="@fragment.Id" class="expandable list-group-item list-group-item-secondary list-group-item-action p-2 border-0 text-center mt-1gi">@fragment.FragmentGroupName</li>
                         }
                         </ul>
                     </div>
                     
                 </div>
-                <div class="col-10">
+                <div class="col-10 h-100">
                      @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
                      {
-                     <div id="@($"{fragment.Id}details")" class="fragments hide mt-2">
+                     <div id="@($"{fragment.Id}details")" class="fragments hide mt-1">
                         <div>
                             <iframe id="@($"{fragment.Id}frame")"
                             class="fragments-iframe"
