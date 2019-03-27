@@ -3,8 +3,9 @@
 <html>
 <head>
     <title>All the fragments!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
 </head>
-<body>
 <style>
     .expandable {
     }
@@ -12,7 +13,6 @@
     .fragments {
         margin-bottom: 50px;
         font-family: Open Sans, sans-serif;
-        border: 1px solid lightgrey;
     }
 
     .fragments-iframe {
@@ -33,19 +33,51 @@
         font-size: xx-large;
         width: 400px;
     }
-</style>
-    @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
-    {
-        <span id="@fragment.Id" class="expandable title">@fragment.FragmentGroupName</span>
-        <blockquote id="@($"{fragment.Id}details")" class="fragments hide">
-            <div>
-                <iframe id="@($"{fragment.Id}frame")"
-                        class="fragments-iframe"
-                        scrolling="no"
-                        data-src="@($"{Url.Action("Frame")}?name={fragment.FragmentGroupName}&css=/{fragment.Css}&html=/{fragment.Html}&js=/{fragment.Js}")"></iframe>
-            </div>
-        </blockquote>
+
+    body, html{
+        min-height: 100%;
+         margin: 0;
     }
+
+    .sideBar{
+        height: 100vh;
+    }
+</style>
+<body>
+    <header>
+        <nav class="navbar navbar-dark bg-success">
+            <span class="navbar-brand mb-0 h1">Navbar</span>
+        </nav>
+    </header>
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-2 bg-info text-dark sideBar p-1">
+                    <ul>
+                     @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
+                    {
+                        <li id="@fragment.Id" class="expandable title">@fragment.FragmentGroupName</li>
+                    }
+                    </ul>
+                    
+                </div>
+                <div class="col-10">
+                     @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
+                     {
+                     <blockquote id="@($"{fragment.Id}details")" class="fragments hide mt-2">
+                        <div>
+                            <iframe id="@($"{fragment.Id}frame")"
+                            class="fragments-iframe"
+                            scrolling="no"
+                            data-src="@($"{Url.Action("Frame")}?name={fragment.FragmentGroupName}&css=/{fragment.Css}&html=/{fragment.Html}&js=/{fragment.Js}")"></iframe>
+                         </div>
+                     </blockquote>
+                    }
+                </div>
+            </div>
+
+        </div>
+    </main>
     <script type="text/javascript">
 
         document.addEventListener("DOMContentLoaded", function () {
@@ -72,5 +104,8 @@
         });
 
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
