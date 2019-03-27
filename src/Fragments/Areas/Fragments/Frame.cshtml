@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Fragment - @Model.Name</title>
-    <!-- <esi:include src="/assets/fragments/baseline.css.html"></esi:include>-->
+     <esi:include src="/baseline/baseline.css.html"></esi:include>
     @foreach (var css in Model.Css)
     {
         <esi:include src="@css" onerror="continue"></esi:include>
@@ -14,7 +14,7 @@
 {
     <esi:include src="@html" onerror="continue"></esi:include>
 }
-<!--<esi:include src="/assets/fragments/baseline.js.html" />-->
+    <esi:include src="/baseline/baseline.js.html" />
 
 @foreach (var js in Model.Js)
 {

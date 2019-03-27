@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sample.Features.Contact
 {
 	[Route("fragments")]
-	public class ContactController : Controller
+	public class BaselineController : Controller
 	{
 		[HttpGet("Contact.html")]
 		[ResponseCache(Duration = 60 * 10)]
