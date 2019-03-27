@@ -54,7 +54,7 @@
                         <ul class="list-group">
                         @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
                         {
-                            <li id="@fragment.Id" class="expandable list-group-item list-group-item-secondary list-group-item-action p-2 border-0 text-center mt-1gi">@fragment.FragmentGroupName</li>
+                            <li id="@fragment.Id" class="expandable list-group-item list-group-item-secondary list-group-item-action p-2 border-0 text-center mt-1">@fragment.FragmentGroupName</li>
                         }
                         </ul>
                     </div>
