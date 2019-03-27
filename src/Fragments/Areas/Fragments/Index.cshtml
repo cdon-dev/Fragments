@@ -19,7 +19,6 @@
         display: block;
         width: 100%;
         height: 800px;
-        border: 0;
         overflow: hidden;
     }
 
@@ -29,18 +28,21 @@
 
     .title {
         cursor: pointer;
-        display: block;
-        font-size: xx-large;
-        width: 400px;
+        list-style: none;
     }
 
     body, html{
         min-height: 100%;
-         margin: 0;
     }
 
-    .sideBar{
+    .sideBarMain{
         height: 100vh;
+    }
+
+    .sideBarList{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 </style>
 <body>
@@ -52,13 +54,15 @@
     <main>
         <div class="container-fluid">
             <div class="row">
-                <div class="col-2 bg-info text-dark sideBar p-1">
-                    <ul>
-                     @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
-                    {
-                        <li id="@fragment.Id" class="expandable title">@fragment.FragmentGroupName</li>
-                    }
-                    </ul>
+                <div class="col-2 bg-info text-dark sideBarMain">
+                    <div class="sideBarListWrapper">
+                        <ul class="sideBarList pl-0">
+                        @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
+                        {
+                            <li id="@fragment.Id" class="expandable title p-2">@fragment.FragmentGroupName</li>
+                        }
+                        </ul>
+                    </div>
                     
                 </div>
                 <div class="col-10">
