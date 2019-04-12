@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace Fragments.Areas.Fragments
 {
-    [Route("fragments")]
+    
     public class FragmentsController : Controller
     {
         private readonly IActionDescriptorCollectionProvider _actionDescriptorsProvider;

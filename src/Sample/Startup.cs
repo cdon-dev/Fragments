@@ -42,7 +42,7 @@ namespace Sample
 				routes.MapRouteAnalyzer("/routes"); 
 				routes.MapRoute(
 					name: "default",
-					template: "{controller}/{action=Index}/{id?}");
+					template: "{controller=Fragments}/{action=Index}/{id?}");
 			});
 
 			app.Run(async (context) =>
