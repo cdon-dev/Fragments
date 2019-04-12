@@ -71,25 +71,29 @@
                      {
                          
                      <blockquote id="@($"{fragment.Id}details")" class="fragments hide">
-                         <table>
-                            <thead> 
-                                <tr>   
-                                <td>FileName</td>    
-                                <td>Size</td>      
-                                <td>Status</td>
-                            </tr>
+                         <table class="table col-8 mx-auto">
+                            <thead class="thead-dark"> 
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">File Name</th>
+                                    <th scope="col">Size</th>
+                                    <th scope="col">Status</th>
+                                </tr>
                             </thead>
-                            <tr> 
+                            <tr>
+                                <th scope="row">1</th> 
                                 <td>@fragment.Html</td>
                                 <td>?</td>
                                 <td>?</td>
                             </tr>
                             <tr> 
+                                <th scope="row">2</th>
                                 <td>@fragment.Css</td>
                                 <td>?</td>
                                 <td>?</td>
                             </tr>
                             <tr>
+                                <th scope="row">3</th>
                                 <td>@fragment.Js</td>
                                 <td>?</td>  
                                 <td>?</td>
