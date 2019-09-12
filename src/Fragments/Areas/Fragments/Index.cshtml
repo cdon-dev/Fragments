@@ -43,18 +43,18 @@
     .mainContent{
         padding: 10px;
     }
-    
+  
 </style>
 <body>
     <header>
-        <nav class="navbar navbar-dark bg-success">
-            <span class="navbar-brand mb-0 h1">CDON Fragment showcase</span>
+        <nav class="navbar navbar-dark bg-dark">
+            <span class="navbar-brand mb-0 h1">Fragments showcase</span>
         </nav>
     </header>
     <main>
         <div class="container-fluid">
             <div class="row h-100">
-                <div class="col-2 bg-info text-dark sideBarMain">
+                <div class="col-2 bg-secondary text-dark sideBarMain">
                     <div class="sideBarListWrapper mt-2">
                         <h3 class="text-center">Fragments are selected here:</h3>
                         <ul class="list-group">
@@ -67,11 +67,11 @@
                     
                 </div>
                 <div class="col-10 h-100 mainContent">
-                     @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
-                     {
-                         
-                     <blockquote id="@($"{fragment.Id}details")" class="fragments hide">
-                         <table class="table col-8 mx-auto">
+                    @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
+                    {
+                    
+                    <blockquote id="@($"{fragment.Id}details")" class="fragments hide">
+                        <table class="table col-8 mx-auto preformance-table">
                             <thead class="thead-dark"> 
                                 <tr>
                                     <th scope="col">#</th>
@@ -99,14 +99,14 @@
                                 <td>?</td>
                             </tr>
                         </table>
-                        <div>
+                        <div class="border">
                             <iframe id="@($"{fragment.Id}frame")"
                             class="fragments-iframe"
                             scrolling="no"
                             frameborder="0"
                             data-src="@($"{Url.Action("Frame")}?name={fragment.FragmentGroupName}&css=/{fragment.Css}&html=/{fragment.Html}&js=/{fragment.Js}")"></iframe>
-                         </div>
-                     </blockquote>
+                        </div>
+                    </blockquote>
                     }
                 </div>
             </div>
