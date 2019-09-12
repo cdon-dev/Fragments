@@ -34,6 +34,7 @@
     .sideBarMain{
         min-height: 100vh;
         padding: 0 5px 0 5px;
+        background-color: #395359;
     }
 
     .list-group-item{
@@ -54,13 +55,13 @@
     <main>
         <div class="container-fluid">
             <div class="row h-100">
-                <div class="col-2 bg-secondary text-dark sideBarMain">
+                <div class="col-2 text-dark sideBarMain">
                     <div class="sideBarListWrapper mt-2">
-                        <h3 class="text-center">Fragments are selected here:</h3>
+                        <h3 class="text-center text-light">Fragments catalog:</h3>
                         <ul class="list-group">
                         @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
                         {
-                            <li id="@fragment.Id" class="expandable list-group-item list-group-item-secondary list-group-item-action p-2 border-0 text-center mt-1">@fragment.FragmentGroupName</li>
+                            <li id="@fragment.Id" class="expandable list-group-item list-group-item-secondary list-group-item-action p-2 border-0 text-center mt-1 font-weight-bold">@fragment.FragmentGroupName</li>
                         }
                         </ul>
                     </div>
@@ -99,7 +100,7 @@
                                 <td>?</td>
                             </tr>
                         </table>
-                        <div class="border">
+                        <div class="border border-dark">
                             <iframe id="@($"{fragment.Id}frame")"
                             class="fragments-iframe"
                             scrolling="no"
