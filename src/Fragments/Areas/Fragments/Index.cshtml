@@ -49,7 +49,7 @@
 <body>
     <header>
         <nav class="navbar navbar-dark bg-dark">
-            <span class="navbar-brand mb-0 h1">Fragments showcase</span>
+            <span class="navbar-brand mb-0 h1">Fragments catalog</span>
         </nav>
     </header>
     <main>
@@ -57,7 +57,6 @@
             <div class="row h-100">
                 <div class="col-2 text-dark sideBarMain">
                     <div class="sideBarListWrapper mt-2">
-                        <h3 class="text-center text-light">Fragments catalog:</h3>
                         <ul class="list-group">
                         @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
                         {
