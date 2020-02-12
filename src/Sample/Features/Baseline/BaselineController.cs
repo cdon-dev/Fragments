@@ -8,6 +8,6 @@ namespace Sample.Features.Baseline
 	{
 		[HttpGet("baseline.css.html")]
 		[ResponseCache(Duration = 60 * 60)]
-		public async Task<IActionResult> BaselineCss() => PartialView("baseline.css");
+		public IActionResult BaselineCss() => PartialView("baseline.css");
 	}
 }

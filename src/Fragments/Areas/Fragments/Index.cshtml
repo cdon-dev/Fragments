@@ -7,7 +7,7 @@
 </head>
 <style>
     .fragments {
-        margin-bottom: 10px;    
+        margin-bottom: 10px;
     }
 
     .fragments-iframe {
@@ -19,195 +19,216 @@
         padding: 10px;
     }
 
-    body{
+    body {
         margin: 0;
-        font-family: "Verdana";
+        font-family: SourceSansLocal,source-sans-pro,Source Sans Pro,-apple-system,Roboto,pt sans,calibri,sans-serif;
+        color: white;
     }
 
     .hide {
         display: none;
     }
 
-    .active{
-        background-color: #696969 !important;
+    .active {
+        background-color: #fdfdfd !important;
         text-decoration: underline;
     }
 
 
-    .sideBarMain{
-        background-color: #708090;
+    .sideBarMain {
+        background-color: #fdfdfd;
         min-height: 100vh;
         grid-area: sidebar;
     }
 
-    .fragment-list{
+    .fragment-list {
         list-style: none;
         padding-left: 0;
-
     }
 
-    .fragment-list-item{
+    .fragment-list-item {
         padding: 10px;
-        border: 1px solid #696969;
         border-radius: 5px;
         font-size: 1rem;
         font-weight: 700;
         cursor: pointer;
-        color: #fff;
+        color: #646565;
         text-align: center;
-        text-shadow: 1px 1px #454545;
         margin: 5px 10px;
-        background-color: cadetblue;
+        background-color: #f1f2f2;
     }
 
-    .header{
+    .header {
         grid-area: header;
-        background: linear-gradient(141deg, #2F4F4F 0%, #708090 51%, #2F4F4F 75%);
+        background-image: linear-gradient(to left,#b3dd98,#01ae55);
     }
 
-    .header-title-wrapper{
+    .header-title-wrapper {
         display: flex;
         justify-content: center
-
     }
 
-    .header-title-wrapper h1{
-        text-shadow: 1px 1px #696969;
-    }
+        .header-title-wrapper h1 {
+            font-size: 1.802em;
+            font-weight: 600;
+            line-height: 1.2;
+            overflow: hidden;
+            display: inline-block;
+            max-width: 100%;
+            color: white;
+            font-size: 24px;
+            line-height: 40px;
+            font-weight: 300;
+            text-overflow: ellipsis;
+        }
 
-    .mainContent{
+    .mainContent {
         grid-area: maincontent;
-        background-color: #f0f0f0;      
+        background-color: #f0f0f0;
     }
 
     ::-webkit-scrollbar {
-    width: 5px;
+        width: 5px;
     }
 
     ::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+        background: #f1f1f1;
     }
-    
+
     ::-webkit-scrollbar-thumb {
-    background: #888; 
+        background: #888;
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+    .grid-container {
+        display: grid;
+        grid-template-rows: 80px 1fr 1fr;
+        grid-template-columns: 20% 1fr 1fr;
+        grid-template-areas: 'header header header' 'sidebar maincontent maincontent' 'sidebar maincontent maincontent';
     }
 
-    .grid-container{
-    display: grid;
-    grid-template-rows: 80px 1fr 1fr;  
-    grid-template-columns: 10% 1fr 1fr;
-    grid-template-areas:
-        'header header header'
-        'sidebar maincontent maincontent'
-        'sidebar maincontent maincontent';
+    .sideBarMain h2 {
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        box-sizing: border-box;
+        max-width: 90%;
+        margin: 0;
+        overflow: hidden;
+        font-weight: 400;
+        font-size: 1.5rem;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        padding: 0 0 0 2.6rem;
+        line-height: 65px;
+        color: #a2a3a3;
     }
 
     @@media only screen and (max-width: 600px) {
-    .grid-container{
-    grid-template-rows: 1fr;  
-    grid-template-columns: 1fr;
-    grid-template-areas:
-        'header'
-        'sidebar'
-        'maincontent';
-    }
+        .grid-container {
+            grid-template-rows: 1fr;
+            grid-template-columns: 1fr;
+            grid-template-areas: 'header' 'sidebar' 'maincontent';
+        }
 
-    .sideBarMain{
-        min-height: auto;
+        .sideBarMain {
+            min-height: auto;
+        }
     }
-}
-  
 </style>
 <body>
     <div class="grid-container">
-    <div class="header">
-        <div class="header-title-wrapper">
-            <h1>Fragments catalog</h1>
+        <div class="header">
+            <div class="header-title-wrapper">
+                <h1>Fragments catalog</h1>
+            </div>
         </div>
-    </div>
-    <div class="sideBarMain">
-        <div class="sideBarListWrapper">
-            <ul class="fragment-list">
+        <div class="sideBarMain">
+            <div class="sideBarListWrapper">
+
+                <h2>Fragments</h2>
+
+                <ul class="fragment-list">
+                    @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
+                    {
+                        <li id="@fragment.Id" class="fragment-list-item expandable">@fragment.FragmentGroupName</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="mainContent">
             @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
             {
-                <li id="@fragment.Id" class="fragment-list-item expandable">@fragment.FragmentGroupName</li>
+
+                <blockquote id="@($"{fragment.Id}details")" class="fragments hide">
+                    <!-- <table class="table col-8 mx-auto preformance-table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">File Name</th>
+                                <th scope="col">Size</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>@fragment.Html</td>
+                            <td>?</td>
+                            <td>?</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>@fragment.Css</td>
+                            <td>?</td>
+                            <td>?</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>@fragment.Js</td>
+                            <td>?</td>
+                            <td>?</td>
+                        </tr>
+                    </table> -->
+                    <iframe id="@($"{fragment.Id}frame")"
+                            class="fragments-iframe"
+                            frameborder="0"
+                            scrolling="yes"
+                            data-src="@($"{Url.Action("Frame")}?name={fragment.FragmentGroupName}&css=/{fragment.Css}&html=/{fragment.Html}&js=/{fragment.Js}")"></iframe>
+                </blockquote>
             }
-            </ul>
-        </div>        
-    </div>
+        </div>
 
-    <div class="mainContent">
-        @foreach (var fragment in Model.Where(x => !string.IsNullOrEmpty(x.Html)))
-        {
-        
-        <blockquote id="@($"{fragment.Id}details")" class="fragments hide">
-            <!-- <table class="table col-8 mx-auto preformance-table">
-                <thead class="thead-dark"> 
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">File Name</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Status</th>
-                    </tr>
-                </thead>
-                <tr>
-                    <th scope="row">1</th> 
-                    <td>@fragment.Html</td>
-                    <td>?</td>
-                    <td>?</td>
-                </tr>
-                <tr> 
-                    <th scope="row">2</th>
-                    <td>@fragment.Css</td>
-                    <td>?</td>
-                    <td>?</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>@fragment.Js</td>
-                    <td>?</td>  
-                    <td>?</td>
-                </tr>
-            </table> -->
-                <iframe id="@($"{fragment.Id}frame")"
-                class="fragments-iframe"
-                frameborder="0"
-                scrolling="yes"
-                data-src="@($"{Url.Action("Frame")}?name={fragment.FragmentGroupName}&css=/{fragment.Css}&html=/{fragment.Html}&js=/{fragment.Js}")"></iframe>
-        </blockquote>
-        }
-    </div>
+        <script type="text/javascript">
 
-    <script type="text/javascript">
+            document.addEventListener("DOMContentLoaded", function () {
+                var nodes = document.querySelectorAll('.expandable');
 
-        document.addEventListener("DOMContentLoaded", function () {
-            var nodes = document.querySelectorAll('.expandable');
+                Array.from(nodes).forEach(x => x.addEventListener('click', onClick));
 
-            Array.from(nodes).forEach(x => x.addEventListener('click', onClick));
+                function onClick(e) {
+                    e.preventDefault();
+                    this.classList.toggle('active')
+                    var container = document.querySelector('#' + e.currentTarget.id + 'details');
+                    var frame = document.querySelector('#' + e.currentTarget.id + 'frame');
+                    if (frame.getAttribute('src') !== null) {
+                        container.classList.toggle('hide');
+                        return;
+                    }
 
-            function onClick(e) {
-                e.preventDefault();
-                this.classList.toggle('active')
-                var container = document.querySelector('#' + e.currentTarget.id + 'details');
-                var frame = document.querySelector('#' + e.currentTarget.id + 'frame');
-                if (frame.getAttribute('src') !== null) {
-                    container.classList.toggle('hide');
-                    return;
+                    frame.setAttribute('src', frame.dataset.src);
+
+                    frame.onload = function () {
+                        container.classList.toggle('hide');
+                    }
                 }
+            });
 
-                frame.setAttribute('src', frame.dataset.src);
-
-                frame.onload = function () {
-                    container.classList.toggle('hide');
-                }
-            }
-        });
-
-    </script>
+        </script>
     </div>
 </body>
 </html>
