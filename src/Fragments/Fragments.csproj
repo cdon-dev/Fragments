@@ -1,8 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffix>alpha</VersionSuffix>
+    <PackageId>Fragments</PackageId>
+    <Authors>CDON</Authors>
+    <PackageIconUrl></PackageIconUrl>
+    <RepositoryUrl>https://github.com/cdon-dev/Fragments</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/cdon-dev/Fragments</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>cdon,composition,fragments</PackageTags>
+    <PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
+    <Product>Fragments</Product>
   </PropertyGroup>
 
   <ItemGroup>
