@@ -1,24 +1,40 @@
 ﻿@model Fragments.Areas.Fragments.Models.FrameModel
+@using Microsoft.Extensions.Options
+@using Fragments
+@inject IOptions<FragmentOptions> options
 <!DOCTYPE html>
 <html>
 <head>
     <title>Fragment - @Model.Name</title>
-     <esi:include src="/baseline/baseline.css.html"></esi:include>
+    <!--@options.Value.StyleBaseline start-->
+    <esi:include src="@options.Value.StyleBaseline" onerror="continue"></esi:include>
+    <!--@options.Value.StyleBaseline end-->
+
     @foreach (var css in Model.Css)
     {
+        <!--@css start-->
         <esi:include src="@css" onerror="continue"></esi:include>
+        <!--@css end-->
+
     }
 </head>
 <body>
-@foreach (var html in Model.Html)
-{
-    <esi:include src="@html" onerror="continue"></esi:include>
-}
-    <esi:include src="/baseline/baseline.js.html" />
+    @foreach (var html in Model.Html)
+    {
+        <esi:include src="@html" onerror="continue"></esi:include>
+    }
 
-@foreach (var js in Model.Js)
-{
-    <esi:include src="@js" onerror="continue"></esi:include>
-}
+    <!--@options.Value.ScriptBaseline start-->
+    <esi:include src="@options.Value.ScriptBaseline" onerror="continue" />
+    <!--@options.Value.ScriptBaseline end-->
+
+
+    @foreach (var js in Model.Js)
+    {
+        <!--@js start-->
+        <esi:include src="@js" onerror="continue"></esi:include>
+        <!--@js end-->
+
+    }
 </body>
 </html>

@@ -1,4 +1,5 @@
 ﻿using EsiNet.AspNetCore;
+using Fragments;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -20,6 +21,12 @@ namespace Sample
 			services.AddHttpContextAccessor();
 
 			services.AddEsiNet();
+			
+			services.Configure<FragmentOptions>(opt =>
+			{
+				opt.ScriptBaseline = "/baseline/baseline.js.html";
+				opt.StyleBaseline = "/baseline/baseline.css.html";
+			});
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,11 +46,6 @@ namespace Sample
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Fragments}/{action=Index}/{id?}");
-			});
-
-			app.Run(async (context) =>
-			{
-				await context.Response.WriteAsync("Welcome to the world of fragments!");
 			});
 		}
 	}

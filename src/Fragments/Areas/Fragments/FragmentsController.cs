@@ -16,15 +16,11 @@ namespace Fragments.Areas.Fragments
 
         [HttpGet]
         public IActionResult Index()
-        {
-            return PartialView("~/Areas/Fragments/Index.cshtml", _actionDescriptorsProvider.ToFragments());
-        }
+         => PartialView("~/Areas/Fragments/Index.cshtml", _actionDescriptorsProvider.ToFragments());
 
         [HttpGet("frame")]
         [ValidateModelState]
         public IActionResult Frame([FromQuery] FrameModel model)
-        {
-            return PartialView("~/Areas/Fragments/Frame.cshtml", model);
-        }
+          => PartialView("~/Areas/Fragments/Frame.cshtml", model);
     }
 }
