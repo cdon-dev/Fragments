@@ -1,6 +1,7 @@
 ﻿using Fragments.Areas.Fragments.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using System.Net.Http;
 
 namespace Fragments.Areas.Fragments
 {
@@ -15,8 +16,9 @@ namespace Fragments.Areas.Fragments
         }
 
         [HttpGet]
-        public IActionResult Index()
-         => PartialView("~/Areas/Fragments/Index.cshtml", _actionDescriptorsProvider.ToFragments());
+        public async System.Threading.Tasks.Task<IActionResult> IndexAsync()
+         => PartialView("~/Areas/Fragments/Index.cshtml", await _actionDescriptorsProvider
+             .ToFragments(new HttpClient { BaseAddress = new System.Uri($"{Request.Scheme}://{Request.Host.Value}") }.Foo()));
 
         [HttpGet("frame")]
         [ValidateModelState]

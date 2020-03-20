@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace Fragments.Areas.Fragments.Models
 {
@@ -21,29 +23,34 @@ namespace Fragments.Areas.Fragments.Models
             Css = GetFragmentType(CssType, fragmentTypes);
         }
 
+        public static async Task<FragmentModel> Create(Func<string, Task<long?>> p, string fragmentGroupName, IEnumerable<string> templates)
+        {
+            var f = new FragmentModel(fragmentGroupName, templates);
+            f.CssSize = await p(f.Css);
+            return f;
+        }
+
         public string FragmentGroupName { get; }
         public string Html { get; }
         public string Js { get; }
         public string Css { get; }
+        public long? CssSize { get; private set; }
+        
         public string Id => FragmentGroupName.Replace("/", string.Empty).ToLowerInvariant();
 
         private static string GetFragmentType(string type, IEnumerable<(string type, string template)> types)
-        {
-            return types
-                       .Where(ft => ft.type == type)
-                       .Select(ft => ft.template)
-                       .FirstOrDefault() ?? string.Empty;
-        }
+         => types
+            .Where(ft => ft.type == type)
+            .Select(ft => ft.template)
+            .FirstOrDefault() ?? string.Empty;
 
         private static List<(string type, string template)> GetFragmentTypes(IEnumerable<string> templates)
-        {
-            return templates
+         => templates
                 .Select(t =>
                 {
                     var match = FragmentTypeRegex.Match(t);
                     return !match.Success ? (HtmlType, t) : (match.Groups[1].Value, t);
                 })
                 .ToList();
-        }
     }
 }
