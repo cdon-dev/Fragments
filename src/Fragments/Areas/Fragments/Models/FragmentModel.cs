@@ -23,7 +23,7 @@ namespace Fragments.Areas.Fragments.Models
             Css = GetFragmentType(CssType, fragmentTypes);
         }
 
-        public static async Task<FragmentModel> Create(Func<Uri, Task<long?>> sizeProvider, string fragmentGroupName, IEnumerable<string> templates)
+        public static async Task<FragmentModel> Create(Func<Uri, Task<(long?, string)>> sizeProvider, string fragmentGroupName, IEnumerable<string> templates)
         {
             var f = GetFragmentResource(sizeProvider);
 
@@ -52,19 +52,27 @@ namespace Fragments.Areas.Fragments.Models
             public bool Missing { get; set; } = true;
             public long? Size { get; set; }
             public string Resource { get; set; }
+            public string Cache { get; set; }
             public bool FollowsConvetion { get; set; }
 
         }
 
-        private static Func<string, string, Task<FragmentResource>> GetFragmentResource(Func<Uri, Task<long?>> p)
-         => async (resource, rule) => string.IsNullOrWhiteSpace(resource) ? new FragmentResource() :
-            new FragmentResource
-            {
-                Missing = string.IsNullOrWhiteSpace(resource),
-                FollowsConvetion = resource.ToLower().EndsWith(rule),
-                Size = await p(new Uri(resource, UriKind.Relative)),
-                Resource = resource
-            };
+        private static Func<string, string, Task<FragmentResource>> GetFragmentResource(Func<Uri, Task<(long?, string)>> p)
+         => async (resource, rule) =>
+         {
+             if (string.IsNullOrWhiteSpace(resource))
+                 return new FragmentResource();
+
+             var r = await p(new Uri(resource, UriKind.Relative));
+             return new FragmentResource
+             {
+                 Missing = string.IsNullOrWhiteSpace(resource),
+                 FollowsConvetion = resource.ToLower().EndsWith(rule),
+                 Size = r.Item1,
+                 Cache = r.Item2,
+                 Resource = resource
+             };
+         };
 
         private static string GetFragmentType(string type, IEnumerable<(string type, string template)> types)
          => types

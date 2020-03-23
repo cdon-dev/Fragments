@@ -172,7 +172,8 @@
                                 <th scope="col">#</th>
                                 <th scope="col">File Name</th>
                                 <th scope="col">Size</th>
-                                <th scope="col">Follows Convetion</th>
+                                <th scope="col">Follows Convention</th>
+                                <th scope="col">Cache</th>
                             </tr>
                         </thead>
                         <tr>
@@ -180,18 +181,21 @@
                             <td>@fragment.HtmlResource.Resource</td>
                             <td>@fragment.HtmlResource.Size</td>
                             <td>@fragment.HtmlResource.FollowsConvetion</td>
+                            <td>@fragment.HtmlResource.Cache</td>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
                             <td>@fragment.CssResource.Resource</td>
                             <td>@fragment.CssResource.Size</td>
                             <td>@fragment.CssResource.FollowsConvetion</td>
+                            <td>@fragment.CssResource.Cache</td>
                         </tr>
                         <tr>
                             <th scope="row">3</th>
                             <td>@fragment.JsResource.Resource</td>
                             <td>@fragment.JsResource.Size</td>
                             <td>@fragment.JsResource.FollowsConvetion</td>
+                            <td>@fragment.JsResource.Cache</td>
                         </tr>
                     </table> 
                     <iframe id="@($"{fragment.Id}frame")"

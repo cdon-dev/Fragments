@@ -8,17 +8,13 @@ namespace Fragments.Areas.Fragments
     
     public class FragmentsController : Controller
     {
-        private readonly IActionDescriptorCollectionProvider _actionDescriptorsProvider;
-
-        public FragmentsController(IActionDescriptorCollectionProvider actionDescriptorsProvider)
-        {
-            _actionDescriptorsProvider = actionDescriptorsProvider;
-        }
 
         [HttpGet]
-        public async System.Threading.Tasks.Task<IActionResult> IndexAsync()
-         => PartialView("~/Areas/Fragments/Index.cshtml", await _actionDescriptorsProvider
-             .ToFragments(new HttpClient { BaseAddress = new System.Uri($"{Request.Scheme}://{Request.Host.Value}") }.GetSize()));
+        public async System.Threading.Tasks.Task<IActionResult> IndexAsync(
+            [FromServices] IActionDescriptorCollectionProvider actionDescriptorsProvider,
+            [FromServices] IHttpClientFactory clientFactory)
+         => PartialView("~/Areas/Fragments/Index.cshtml", await actionDescriptorsProvider
+             .ToFragments(clientFactory.CreateClient("fragments").GetSize()));
 
         [HttpGet("frame")]
         [ValidateModelState]
