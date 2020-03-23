@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EsiNet.AspNetCore" Version="0.2.16" />
+    <PackageReference Include="EsiNet.AspNetCore" Version="0.3.0" />
     <PackageReference Include="OdeToCode.AddFeatureFolders" Version="2.0.3" />
   </ItemGroup>
 

@@ -23,20 +23,48 @@ namespace Fragments.Areas.Fragments.Models
             Css = GetFragmentType(CssType, fragmentTypes);
         }
 
-        public static async Task<FragmentModel> Create(Func<string, Task<long?>> p, string fragmentGroupName, IEnumerable<string> templates)
+        public static async Task<FragmentModel> Create(Func<Uri, Task<long?>> sizeProvider, string fragmentGroupName, IEnumerable<string> templates)
         {
-            var f = new FragmentModel(fragmentGroupName, templates);
-            f.CssSize = await p(f.Css);
-            return f;
+            var f = GetFragmentResource(sizeProvider);
+
+            var model = new FragmentModel(fragmentGroupName, templates);
+
+            model.CssResource = await f(model.Css, "css.html");
+            model.JsResource = await f(model.Js, "js.html");
+            model.HtmlResource = await f(model.Html, ".html");
+
+            return model;
         }
 
         public string FragmentGroupName { get; }
         public string Html { get; }
         public string Js { get; }
         public string Css { get; }
-        public long? CssSize { get; private set; }
-        
+
+        public FragmentResource HtmlResource { get; private set; }
+        public FragmentResource CssResource { get; private set; }
+        public FragmentResource JsResource { get; private set; }
+
         public string Id => FragmentGroupName.Replace("/", string.Empty).ToLowerInvariant();
+
+        public class FragmentResource
+        {
+            public bool Missing { get; set; } = true;
+            public long? Size { get; set; }
+            public string Resource { get; set; }
+            public bool FollowsConvetion { get; set; }
+
+        }
+
+        private static Func<string, string, Task<FragmentResource>> GetFragmentResource(Func<Uri, Task<long?>> p)
+         => async (resource, rule) => string.IsNullOrWhiteSpace(resource) ? new FragmentResource() :
+            new FragmentResource
+            {
+                Missing = string.IsNullOrWhiteSpace(resource),
+                FollowsConvetion = resource.ToLower().EndsWith(rule),
+                Size = await p(new Uri(resource, UriKind.Relative)),
+                Resource = resource
+            };
 
         private static string GetFragmentType(string type, IEnumerable<(string type, string template)> types)
          => types

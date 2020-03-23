@@ -18,7 +18,7 @@ namespace Fragments.Areas.Fragments
         [HttpGet]
         public async System.Threading.Tasks.Task<IActionResult> IndexAsync()
          => PartialView("~/Areas/Fragments/Index.cshtml", await _actionDescriptorsProvider
-             .ToFragments(new HttpClient { BaseAddress = new System.Uri($"{Request.Scheme}://{Request.Host.Value}") }.Foo()));
+             .ToFragments(new HttpClient { BaseAddress = new System.Uri($"{Request.Scheme}://{Request.Host.Value}") }.GetSize()));
 
         [HttpGet("frame")]
         [ValidateModelState]

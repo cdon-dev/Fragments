@@ -15,7 +15,7 @@ namespace Fragments.Areas.Fragments
 
         public static async Task<IReadOnlyCollection<FragmentModel>> ToFragments(
             this IActionDescriptorCollectionProvider actionDescriptorsProvider,
-            Func<string, Task<long?>> p)
+            Func<Uri, Task<long?>> p)
          => (await Task.WhenAll(actionDescriptorsProvider.ActionDescriptors.Items
                 .Select(x => (match: FragmentsTypeRegex.Match(x.AttributeRouteInfo?.Template ?? ""),
                     template: x.AttributeRouteInfo?.Template ?? ""))
@@ -26,7 +26,7 @@ namespace Fragments.Areas.Fragments
                 ))
             .ToList();
 
-        public static Func<string, Task<long?>> Foo(this HttpClient httpClient)
+        public static Func<Uri, Task<long?>> GetSize(this HttpClient httpClient)
          => async url =>(await httpClient.GetAsync(url)).Content.Headers.ContentLength;
     }
 }
