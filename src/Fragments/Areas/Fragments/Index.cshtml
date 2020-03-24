@@ -4,7 +4,9 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>All the fragments!</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/tables-min.css">
 </head>
+
 <style>
     .fragments {
         margin-bottom: 10px;
@@ -12,17 +14,15 @@
 
     .fragments-iframe {
         display: block;
-        width: 100%;
+        width: 90%;
         height: 65vh;
-        border: 2px solid #000;
-        border-radius: 10px;
-        padding: 10px;
+        padding-top: 10px;
     }
 
     body {
         margin: 0;
         font-family: SourceSansLocal,source-sans-pro,Source Sans Pro,-apple-system,Roboto,pt sans,calibri,sans-serif;
-        color: white;
+        color: darkslategray;
     }
 
     .hide {
@@ -166,8 +166,11 @@
             {
 
                 <blockquote id="@($"{fragment.Id}details")" class="fragments hide">
-                     <table class="table col-8 mx-auto preformance-table">
-                        <thead class="thead-dark">
+                    
+                    <h2>@fragment.Id</h2>
+                    
+                    <table class="pure-table">
+                        <thead>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">File Name</th>
@@ -197,7 +200,7 @@
                             <td>@fragment.JsResource.FollowsConvetion</td>
                             <td>@fragment.JsResource.Cache</td>
                         </tr>
-                    </table> 
+                    </table>
                     <iframe id="@($"{fragment.Id}frame")"
                             class="fragments-iframe"
                             frameborder="0"
