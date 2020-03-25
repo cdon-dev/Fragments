@@ -11,10 +11,13 @@ namespace Fragments
         {
             var name = (string)context.RouteData.Values["Controller"];
             var f = context.HttpContext.RequestServices.GetService(typeof(FragmentModel[])) as FragmentModel[];
-            var r = f.Where(x => x.Id == name.ToLower()).FirstOrDefault();
-            context.HttpContext.Response.Headers.Add("x-fragment-html", r.Html);
-            context.HttpContext.Response.Headers.Add("x-fragment-css", r.Css);
-            context.HttpContext.Response.Headers.Add("x-fragment-js", r.Js);
+            var r = f?.Where(x => x.Id == name.ToLower()).FirstOrDefault();
+            if(r != null)
+            {
+                context.HttpContext.Response.Headers.Add("x-fragment-html", r.Html);
+                context.HttpContext.Response.Headers.Add("x-fragment-css", r.Css);
+                context.HttpContext.Response.Headers.Add("x-fragment-js", r.Js);
+            }
             return base.OnResultExecutionAsync(context, next);
         }
     }
