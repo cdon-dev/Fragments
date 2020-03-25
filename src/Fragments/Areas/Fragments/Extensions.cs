@@ -83,13 +83,13 @@ namespace Fragments.Areas.Fragments
 
     }
 
-    public struct ResourceInfo
+    public class ResourceInfo
     {
-        public long? Size;
-        public string CacheControl;
-        public bool CssLinks;
-        public bool Styles;
-        public bool Scripts;
+        public long? Size { get; }
+        public string CacheControl { get;}
+        public bool CssLinks { get; }
+        public bool Styles { get; }
+        public bool Scripts { get; }
 
         public ResourceInfo(long? size, string cacheControl, bool cssLinks, bool styles, bool scripts)
         {
@@ -98,40 +98,6 @@ namespace Fragments.Areas.Fragments
             CssLinks = cssLinks;
             Styles = styles;
             Scripts = scripts;
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is ResourceInfo other &&
-                   Size == other.Size &&
-                   CacheControl == other.CacheControl &&
-                   CssLinks == other.CssLinks &&
-                   Styles == other.Styles &&
-                   Scripts == other.Scripts;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Size, CacheControl, CssLinks, Styles, Scripts);
-        }
-
-        public void Deconstruct(out long? size, out string cacheControl, out bool cssLinks, out bool styles, out bool scripts)
-        {
-            size = Size;
-            cacheControl = CacheControl;
-            cssLinks = CssLinks;
-            styles = Styles;
-            scripts = Scripts;
-        }
-
-        public static implicit operator (long? Size, string CacheControl, bool CssLinks, bool Styles, bool Scripts)(ResourceInfo value)
-        {
-            return (value.Size, value.CacheControl, value.CssLinks, value.Styles, value.Scripts);
-        }
-
-        public static implicit operator ResourceInfo((long? Size, string CacheControl, bool CssLinks, bool Styles, bool Scripts) value)
-        {
-            return new ResourceInfo(value.Size, value.CacheControl, value.CssLinks, value.Styles, value.Scripts);
         }
     }
 }
