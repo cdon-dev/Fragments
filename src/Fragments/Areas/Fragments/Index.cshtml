@@ -1,4 +1,4 @@
-﻿@model IReadOnlyCollection<Fragments.Areas.Fragments.Models.FragmentResourceModel>
+﻿@model Fragments.Areas.Fragments.Models.FragmentResourceModel[]
 <!DOCTYPE html>
 <html>
 <head>
@@ -177,6 +177,10 @@
                                 <th scope="col">Size</th>
                                 <th scope="col">Follows Convention</th>
                                 <th scope="col">Cache</th>
+                                <th scope="col">Has Css Links</th>
+                                <th scope="col">Has Css Styles</th>
+                                <th scope="col">Has Scripts</th>
+
                             </tr>
                         </thead>
                         <tr>
@@ -185,6 +189,10 @@
                             <td>@fragment.HtmlResource.Size</td>
                             <td>@fragment.HtmlResource.FollowsConvetion</td>
                             <td>@fragment.HtmlResource.Cache</td>
+                            <td>@fragment.HtmlResource.HasCssLinks</td>
+                            <td>@fragment.HtmlResource.HasStyles</td>
+                            <td>@fragment.HtmlResource.HasScripts</td>
+
                         </tr>
                         <tr>
                             <th scope="row">2</th>
@@ -192,6 +200,9 @@
                             <td>@fragment.CssResource.Size</td>
                             <td>@fragment.CssResource.FollowsConvetion</td>
                             <td>@fragment.CssResource.Cache</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <th scope="row">3</th>
@@ -199,6 +210,9 @@
                             <td>@fragment.JsResource.Size</td>
                             <td>@fragment.JsResource.FollowsConvetion</td>
                             <td>@fragment.JsResource.Cache</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     </table>
                     <iframe id="@($"{fragment.Id}frame")"

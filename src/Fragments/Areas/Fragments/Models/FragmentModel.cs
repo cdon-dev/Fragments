@@ -14,7 +14,7 @@ namespace Fragments.Areas.Fragments.Models
             FragmentGroupName = model.FragmentGroupName;
         }
 
-        public static async Task<FragmentResourceModel> Create(Func<Uri, Task<(long?, string)>> sizeProvider, FragmentModel fm)
+        public static async Task<FragmentResourceModel> Create(Func<Uri, Task<ResourceInfo>> sizeProvider, FragmentModel fm)
         {
             var f = Extensions.GetFragmentResource(sizeProvider);
             return new FragmentResourceModel(fm)
@@ -42,7 +42,9 @@ namespace Fragments.Areas.Fragments.Models
             public string Resource { get; set; }
             public string Cache { get; set; }
             public bool FollowsConvetion { get; set; }
-
+            public bool HasCssLinks { get; internal set; }
+            public bool HasStyles { get; internal set; }
+            public bool HasScripts { get; internal set; }
         }
     }
 

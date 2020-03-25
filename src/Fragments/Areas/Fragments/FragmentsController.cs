@@ -1,13 +1,11 @@
 ﻿using Fragments.Areas.Fragments.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Fragments.Areas.Fragments
 {
-    
+
     public class FragmentsController : Controller
     {
         [HttpGet]

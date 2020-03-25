@@ -28,16 +28,22 @@ namespace Fragments.Areas.Fragments
          .Select(x => new FragmentModel(x.Key, x.Select(f => f.template)))
          .ToList();
 
-        public static Func<Uri, Task<(long?, string)>> GetSize(this HttpClient httpClient)
+        public static Func<Uri, Task<ResourceInfo>> GetSize(this HttpClient httpClient)
          => async url =>
          {
              var r = await httpClient.GetAsync(url);
              var size = r.Content.Headers.ContentLength;
              var cache = string.Join(',', r.Headers.CacheControl);
-             return (size, cache);
+             var body = await r.Content.ReadAsStringAsync();
+             var cssLinks = body.Contains("<link", StringComparison.InvariantCultureIgnoreCase);
+             var styles = body.Contains("<style", StringComparison.InvariantCultureIgnoreCase);
+             var scripts = body.Contains("<script", StringComparison.InvariantCultureIgnoreCase);
+
+             return new ResourceInfo(size, cache, cssLinks, styles, scripts);
          };
 
-        public static Func<string, string, Task<FragmentResource>> GetFragmentResource(Func<Uri, Task<(long?, string)>> p)
+        public static Func<string, string, Task<FragmentResource>> GetFragmentResource(
+            Func<Uri, Task<ResourceInfo>> p)
             => async (resource, rule) =>
             {
                 if (string.IsNullOrWhiteSpace(resource))
@@ -48,9 +54,12 @@ namespace Fragments.Areas.Fragments
                 {
                     Missing = string.IsNullOrWhiteSpace(resource),
                     FollowsConvetion = resource.ToLower().EndsWith(rule),
-                    Size = r.Item1,
-                    Cache = r.Item2,
-                    Resource = resource
+                    Size = r.Size,
+                    Cache = r.CacheControl,
+                    Resource = resource,
+                    HasCssLinks = r.CssLinks,
+                    HasStyles = r.Styles,
+                    HasScripts = r.Scripts
                 };
             };
 
@@ -72,5 +81,57 @@ namespace Fragments.Areas.Fragments
         public static Task<FragmentResourceModel[]> ToFragmentResouceModels(this HttpClient httpClient, params FragmentModel[] models)
          => Task.WhenAll(models.Select(x => Create(httpClient.GetSize(), x)));
 
+    }
+
+    public struct ResourceInfo
+    {
+        public long? Size;
+        public string CacheControl;
+        public bool CssLinks;
+        public bool Styles;
+        public bool Scripts;
+
+        public ResourceInfo(long? size, string cacheControl, bool cssLinks, bool styles, bool scripts)
+        {
+            Size = size;
+            CacheControl = cacheControl;
+            CssLinks = cssLinks;
+            Styles = styles;
+            Scripts = scripts;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is ResourceInfo other &&
+                   Size == other.Size &&
+                   CacheControl == other.CacheControl &&
+                   CssLinks == other.CssLinks &&
+                   Styles == other.Styles &&
+                   Scripts == other.Scripts;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Size, CacheControl, CssLinks, Styles, Scripts);
+        }
+
+        public void Deconstruct(out long? size, out string cacheControl, out bool cssLinks, out bool styles, out bool scripts)
+        {
+            size = Size;
+            cacheControl = CacheControl;
+            cssLinks = CssLinks;
+            styles = Styles;
+            scripts = Scripts;
+        }
+
+        public static implicit operator (long? Size, string CacheControl, bool CssLinks, bool Styles, bool Scripts)(ResourceInfo value)
+        {
+            return (value.Size, value.CacheControl, value.CssLinks, value.Styles, value.Scripts);
+        }
+
+        public static implicit operator ResourceInfo((long? Size, string CacheControl, bool CssLinks, bool Styles, bool Scripts) value)
+        {
+            return new ResourceInfo(value.Size, value.CacheControl, value.CssLinks, value.Styles, value.Scripts);
+        }
     }
 }
