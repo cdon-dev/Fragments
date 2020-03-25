@@ -1,49 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Fragments.Areas.Fragments.Models
 {
-    public class FragmentModel
+    public class FragmentResourceModel
     {
-        private const string HtmlType = "html";
-        private const string JsType = "js";
-        private const string CssType = "css";
-
-        private static readonly Regex FragmentTypeRegex = new Regex(@"/[^.]+\.([^.]+)\.[^.]+$");
-
-        public FragmentModel(string fragmentGroupName, IEnumerable<string> templates)
+        private FragmentResourceModel(FragmentModel model) 
         {
-            FragmentGroupName = fragmentGroupName;
-            var fragmentTypes = GetFragmentTypes(templates);
-            Html = GetFragmentType(HtmlType, fragmentTypes);
-            Js = GetFragmentType(JsType, fragmentTypes);
-            Css = GetFragmentType(CssType, fragmentTypes);
+            Html = model.Html;
+            Js = model.Js;
+            Css = model.Css;
+            FragmentGroupName = model.FragmentGroupName;
         }
 
-        public static async Task<FragmentModel> Create(Func<Uri, Task<(long?, string)>> sizeProvider, string fragmentGroupName, IEnumerable<string> templates)
+        public static async Task<FragmentResourceModel> Create(Func<Uri, Task<(long?, string)>> sizeProvider, FragmentModel fm)
         {
-            var f = GetFragmentResource(sizeProvider);
-
-            var model = new FragmentModel(fragmentGroupName, templates);
-
-            model.CssResource = await f(model.Css, "css.html");
-            model.JsResource = await f(model.Js, "js.html");
-            model.HtmlResource = await f(model.Html, ".html");
-
-            return model;
+            var f = Extensions.GetFragmentResource(sizeProvider);
+            return new FragmentResourceModel(fm)
+            {
+                CssResource = await f(fm.Css, "css.html"),
+                JsResource = await f(fm.Js, "js.html"),
+                HtmlResource = await f(fm.Html, ".html")
+            };
         }
-
-        public string FragmentGroupName { get; }
-        public string Html { get; }
-        public string Js { get; }
-        public string Css { get; }
-
+      
         public FragmentResource HtmlResource { get; private set; }
         public FragmentResource CssResource { get; private set; }
         public FragmentResource JsResource { get; private set; }
+        public string Html { get; }
+        public string Js { get; }
+        public string Css { get; }
+        public string FragmentGroupName { get; }
 
         public string Id => FragmentGroupName.Replace("/", string.Empty).ToLowerInvariant();
 
@@ -56,37 +44,27 @@ namespace Fragments.Areas.Fragments.Models
             public bool FollowsConvetion { get; set; }
 
         }
+    }
 
-        private static Func<string, string, Task<FragmentResource>> GetFragmentResource(Func<Uri, Task<(long?, string)>> p)
-         => async (resource, rule) =>
-         {
-             if (string.IsNullOrWhiteSpace(resource))
-                 return new FragmentResource();
+    public class FragmentModel
+    {
+        private const string HtmlType = "html";
+        private const string JsType = "js";
+        private const string CssType = "css";
 
-             var r = await p(new Uri(resource, UriKind.Relative));
-             return new FragmentResource
-             {
-                 Missing = string.IsNullOrWhiteSpace(resource),
-                 FollowsConvetion = resource.ToLower().EndsWith(rule),
-                 Size = r.Item1,
-                 Cache = r.Item2,
-                 Resource = resource
-             };
-         };
+        public FragmentModel(string fragmentGroupName, IEnumerable<string> templates)
+        {
+            FragmentGroupName = fragmentGroupName;
+            var fragmentTypes = Extensions.GetFragmentTypes(HtmlType, templates);
+            Html = Extensions.GetFragmentType(HtmlType, fragmentTypes);
+            Js = Extensions.GetFragmentType(JsType, fragmentTypes);
+            Css = Extensions.GetFragmentType(CssType, fragmentTypes);
+        }
 
-        private static string GetFragmentType(string type, IEnumerable<(string type, string template)> types)
-         => types
-            .Where(ft => ft.type == type)
-            .Select(ft => ft.template)
-            .FirstOrDefault() ?? string.Empty;
-
-        private static List<(string type, string template)> GetFragmentTypes(IEnumerable<string> templates)
-         => templates
-                .Select(t =>
-                {
-                    var match = FragmentTypeRegex.Match(t);
-                    return !match.Success ? (HtmlType, t) : (match.Groups[1].Value, t);
-                })
-                .ToList();
+        public string FragmentGroupName { get; }
+        public string Html { get; }
+        public string Js { get; }
+        public string Css { get; }
+        public string Id => FragmentGroupName.Replace("/", string.Empty).ToLowerInvariant();
     }
 }
