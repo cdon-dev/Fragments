@@ -4,7 +4,7 @@
 
 Fragments are composable UI blocks in compostion through Server Side Inclusion (SSI) using Edge Side Includes ([ESI](https://www.w3.org/TR/esi-lang)) or Client Side Includsion (CSI) using [h-include](https://github.com/gustafnk/h-include).
 
-The fragments project is a "catlog" of fragments, think "swagger for UI": what fragments are shared by this application, and how to inlcude them.
+The fragments project is a "catalog" of fragments, think "swagger for UI": what fragments are shared by this application, and how to inlcude them.
 
 A fragment consists of three parts: the markup, styles and behavior (js). We use the following convension:
 
