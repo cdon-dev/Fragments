@@ -9,35 +9,30 @@
     <!--@options.Value.StyleBaseline start-->
     <esi:include src="@options.Value.StyleBaseline" onerror="continue"></esi:include>
     <!--@options.Value.StyleBaseline end-->
+    
+    <!--@Model.Css start-->
+    <esi:include src="@Model.Css" onerror="continue"></esi:include>
+    <!--@Model Css end-->
 
-    @foreach (var css in Model.Css)
-    {
-        <!--@css start-->
-        <esi:include src="@css" onerror="continue"></esi:include>
-        <!--@css end-->
-
-    }
 </head>
 <body>
-    @foreach (var html in Model.Html)
-    {
-        <esi:include src="@html" onerror="continue"></esi:include>
-    }
+        <esi:include src="@Model.Html" onerror="continue"></esi:include>
 
     <!--@options.Value.ScriptBaseline start-->
 
-    <esi:choose>
-        <esi:when test="'@string.IsNullOrWhiteSpace(options.Value.ScriptBaseline)'!='True'">
-            <esi:include src="@options.Value.ScriptBaseline" onerror="continue"></esi:include>
-        </esi:when>
-    </esi:choose>
+        <esi:choose>
+            <esi:when test="'@string.IsNullOrWhiteSpace(options.Value.ScriptBaseline)'!='True'">
+                <esi:include src="@options.Value.ScriptBaseline" onerror="continue"></esi:include>
+            </esi:when>
+        </esi:choose>
+
+
 
     <!--@options.Value.ScriptBaseline end-->
-    @foreach (var js in Model.Js)
-    {
-    <!--@js start-->
-    <esi:include src="@js" onerror="continue"></esi:include>
-    <!--@js end-->
-    }
-</body>
+    <!--@Model.Js start-->
+        
+    <esi:include src="@Model.Js" onerror="continue"></esi:include>
+
+    <!--@Model.Js end-->
+    </body>
 </html>

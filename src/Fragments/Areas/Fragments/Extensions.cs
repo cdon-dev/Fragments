@@ -66,7 +66,7 @@ namespace Fragments.Areas.Fragments
         public static string GetFragmentType(string type, IEnumerable<(string type, string template)> types)
          => types
             .Where(ft => ft.type == type)
-            .Select(ft => ft.template)
+            .Select(ft => $"/{ft.template}")
             .FirstOrDefault() ?? string.Empty;
 
         public static List<(string type, string template)> GetFragmentTypes(string htmlType, IEnumerable<string> templates)

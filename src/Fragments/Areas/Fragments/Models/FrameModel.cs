@@ -7,10 +7,10 @@ namespace Fragments.Areas.Fragments.Models
         [Required]
         public string Name { get; set; }
         [RelativeUrl]
-        public string[] Css { get; set; }
+        public string Css { get; set; }
         [RelativeUrl]
-        public string[] Html { get; set; }
+        public string Html { get; set; }
         [RelativeUrl]
-        public string[] Js { get; set; }
+        public string Js { get; set; }
     }
 }
