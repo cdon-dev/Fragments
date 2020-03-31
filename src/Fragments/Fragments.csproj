@@ -5,7 +5,7 @@
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
     <VersionPrefix>0.1.0</VersionPrefix>
     <VersionSuffix>alpha</VersionSuffix>
-    <PackageId>Fragments</PackageId>
+    <PackageId>CMP.Fragments</PackageId>
     <Authors>CDON</Authors>
     <PackageIconUrl></PackageIconUrl>
     <RepositoryUrl>https://github.com/cdon-dev/Fragments</RepositoryUrl>
@@ -13,7 +13,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>cdon,composition,fragments</PackageTags>
     <PackageLicenseUrl>https://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
-    <Product>Fragments</Product>
+    <Product>CMP.Fragments</Product>
   </PropertyGroup>
 
   <ItemGroup>
